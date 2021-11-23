@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Mego.BaseClasses;
 using System.Threading;
+using Mego.Models;
 
 namespace Mego.Controllers
 {
@@ -28,18 +29,18 @@ namespace Mego.Controllers
 
             CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
             
-            Task<string> A = ExternalA.RequestAsync(wait, randomMin, randomMax, cancelTokenSource);
-            Task<string> B = ExternalB.RequestAsync(wait, randomMin, randomMax, cancelTokenSource);
-            Task<string> C = ExternalC.RequestAsync(wait, randomMin, randomMax, cancelTokenSource);
-            Task<string> D = ExternalD.RequestAsync(wait, randomMin, randomMax, cancelTokenSource);
+            Task<SearchEngineModel> A = ExternalA.RequestAsync(wait, randomMin, randomMax, cancelTokenSource);
+            Task<SearchEngineModel> B = ExternalB.RequestAsync(wait, randomMin, randomMax, cancelTokenSource);
+            Task<SearchEngineModel> C = ExternalC.RequestAsync(wait, randomMin, randomMax, cancelTokenSource);
+            Task<SearchEngineModel> D = ExternalD.RequestAsync(wait, randomMin, randomMax, cancelTokenSource);
 
             Task.WhenAll(new Task[] { A, B, C });
 
-            string AResult = A.Result;
-            string BResult = B.Result;
-            string CResult = C.Result;
+            SearchEngineModel AResult = A.Result;
+            SearchEngineModel BResult = B.Result;
+            SearchEngineModel CResult = C.Result;
 
-            if (CResult == "OK")
+            if (CResult.SearchResult == "OK")
             {
                 D.Start();
             }

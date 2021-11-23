@@ -21,7 +21,7 @@ namespace Mego.BaseClasses
 
         public int MinDelay { get; private set; }
         public int MaxDelay { get; private set; }
-        public async Task<string> RequestAsync(int wait, int minDelay, int maxDelay, CancellationTokenSource cancelTokenSource)
+        public async Task<SearchEngineModel> RequestAsync(int wait, int minDelay, int maxDelay, CancellationTokenSource cancelTokenSource)
         {
             int halfDelay = 1 / 2 * (minDelay + maxDelay);
             //Returns random result -> OK or ERROR
@@ -30,7 +30,7 @@ namespace Mego.BaseClasses
             if (searchDelayEmul > wait + 100)
             {
                 cancelTokenSource.Cancel();
-                return "TIMEOUT";
+                return new SearchEngineModel(this.GetType().Name, "TIMEOUT", searchDelayEmul);
             }
             else
             {
@@ -40,20 +40,20 @@ namespace Mego.BaseClasses
 
         }
 
-        private string Result(int searchDelayEmul, int halfDelay, CancellationToken cancelToken)
+        private SearchEngineModel Result(int searchDelayEmul, int halfDelay, CancellationToken cancelToken)
         {
             if (cancelToken.IsCancellationRequested)
             {
-                return "TIMEOUT";
+                return new SearchEngineModel(this.GetType().Name, "TIMEOUT", searchDelayEmul); //leave searchDelayEmul as it can be useful in future
             }
             Task.Delay(searchDelayEmul);
             if (searchDelayEmul < halfDelay)
             {
-                return "OK";
+                return new SearchEngineModel(this.GetType().Name, "OK", searchDelayEmul);
             }
             else
             {
-                return "ERROR";
+                return new SearchEngineModel(this.GetType().Name, "ERROR", searchDelayEmul);
             }
         }
 
