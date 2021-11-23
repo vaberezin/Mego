@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Mego.Models;
+using System.Reflection;
 
 namespace Mego.BaseClasses
 {
@@ -13,12 +14,13 @@ namespace Mego.BaseClasses
         {
 
         }
-        public SearchSystem(int minDelay, int maxDelay)
+        public SearchSystem(string name, int minDelay, int maxDelay)
         {
+            Name = name;
             MinDelay = minDelay;
             MaxDelay = maxDelay;            
         }
-
+        public string Name { get; private set; }
         public int MinDelay { get; private set; }
         public int MaxDelay { get; private set; }
         public async Task<SearchEngineModel> RequestAsync(int wait, int minDelay, int maxDelay, CancellationTokenSource cancelTokenSource)
@@ -44,16 +46,16 @@ namespace Mego.BaseClasses
         {
             if (cancelToken.IsCancellationRequested)
             {
-                return new SearchEngineModel(this.GetType().Name, "TIMEOUT", searchDelayEmul); //leave searchDelayEmul as it can be useful in future
+                return new SearchEngineModel(this.Name, "TIMEOUT", searchDelayEmul); //leave searchDelayEmul as it can be useful in future
             }
             Task.Delay(searchDelayEmul);
             if (searchDelayEmul < halfDelay)
             {
-                return new SearchEngineModel(this.GetType().Name, "OK", searchDelayEmul);
+                return new SearchEngineModel(this.Name, "OK", searchDelayEmul);
             }
             else
             {
-                return new SearchEngineModel(this.GetType().Name, "ERROR", searchDelayEmul);
+                return new SearchEngineModel(this.Name, "ERROR", searchDelayEmul);
             }
         }
 

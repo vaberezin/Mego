@@ -30,10 +30,10 @@ namespace Mego.Controllers
         // GET: Search/Search?wait=X&randomMin=Y&randomMax=Z
         public ActionResult Search(int wait, int randomMin, int randomMax)
         {            
-            ExternalA = new SearchSystem(randomMin, randomMax);
-            ExternalB = new SearchSystem(randomMin, randomMax);
-            ExternalC = new SearchSystem(randomMin, randomMax);
-            ExternalD = new SearchSystem(randomMin, randomMax);
+            ExternalA = new SearchSystem(nameof(ExternalA), randomMin, randomMax);
+            ExternalB = new SearchSystem(nameof(ExternalB), randomMin, randomMax);
+            ExternalC = new SearchSystem(nameof(ExternalC), randomMin, randomMax);
+            ExternalD = new SearchSystem(nameof(ExternalD), randomMin, randomMax);
 
             //Create list of objects and send it to client
             List<SearchEngineModel>  resultList = new List<SearchEngineModel>();
@@ -63,7 +63,7 @@ namespace Mego.Controllers
             {
                 resultList.AddRange(new SearchEngineModel[]{AResult,BResult,CResult});
             }
-            
+
             //Add searchResults to DataManagement object (serves as a warehouse here).
             dataManagement.warehouse.AddRange(resultList);
 
