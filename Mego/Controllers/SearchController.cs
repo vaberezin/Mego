@@ -73,7 +73,7 @@ namespace Mego.Controllers
         [HttpGet]
         public ActionResult Metrics(){  //Report action
             
-            var Result = dataManagement.warehouse.GroupBy(d => (Math.Ceiling(Convert.ToDecimal(d.Performance/1000)),d.SearchEngineName)).ToList(); //test math.ceiling
+            var Result = dataManagement.warehouse.GroupBy(d => (Math.Ceiling(Convert.ToDecimal(d.Performance/1000)),d.SearchEngineName)).ToList();
 
             return Json(Result);
         }

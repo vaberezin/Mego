@@ -46,7 +46,7 @@ namespace Mego.BaseClasses
         {
             if (cancelToken.IsCancellationRequested)
             {
-                return new SearchEngineModel(this.Name, "TIMEOUT", searchDelayEmul); //leave searchDelayEmul as it can be useful in future
+                return new SearchEngineModel(this.Name, "TIMEOUT", searchDelayEmul);
             }
             Task.Delay(searchDelayEmul);
             if (searchDelayEmul < halfDelay)
