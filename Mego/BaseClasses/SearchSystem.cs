@@ -23,7 +23,7 @@ namespace Mego.BaseClasses
         public int MaxDelay { get; private set; }
         public async Task<SearchEngineModel> RequestAsync(int wait, int minDelay, int maxDelay, CancellationTokenSource cancelTokenSource)
         {
-            int halfDelay = 1 / 2 * (minDelay + maxDelay);
+            int halfDelay =  (MinDelay + MaxDelay)/2;
             //Returns random result -> OK or ERROR
             Random rnd = new Random();
             int searchDelayEmul = rnd.Next(minDelay, maxDelay);
