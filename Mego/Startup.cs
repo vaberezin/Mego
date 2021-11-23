@@ -7,6 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Mego.Models;
+using Mego.BaseClasses;
+using Swashbuckle;
+using Swashbuckle.Swagger;
+using Swashbuckle.SwaggerUi;
+using Microsoft.AspNetCore.Routing;
 
 namespace Mego
 {
@@ -23,6 +29,8 @@ namespace Mego
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddSingleton<DataManagement>();
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,14 +48,15 @@ namespace Mego
 
             app.UseRouting();
 
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
+                endpoints.MapControllers();
+            });            
         }
     }
 }
